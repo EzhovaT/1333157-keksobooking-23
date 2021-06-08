@@ -21,58 +21,55 @@ const getRandomCoordinates = (firstNumber, lastNumber, decimalPlaces) => {
 
 getRandomCoordinates(2, 8, 2);
 
-const listTypeOffer = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-const listCheckin = ['12:00', '13:00', '14:00'];
-const listCheckout = ['12:00', '13:00', '14:00'];
-const listFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const listPhotos = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
+const LIST_TYPE_OFFER = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const LIST_CHECKIN = ['12:00', '13:00', '14:00'];
+const LIST_CHECKOUT = ['12:00', '13:00', '14:00'];
+const LIST_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const LIST_PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
+const ANNOUNCEMENT_COUNT = 10;
 
-const CreateListAvatar = () => {
+const сreateListAvatar = () => {
   const listAvatar = [];
-  for (let count = 1; count <= 10; count++) {
-    count <= 8 ? listAvatar.push(`img/avatars/user0${count}.png`) : listAvatar.push('');
+  for (let count = 1; count <= ANNOUNCEMENT_COUNT; count++) {
+    listAvatar.push(`img/avatars/user0${count}.png`);
   }
   return listAvatar;
 };
 
-const getRandomElement = (arr) => arr[randomNumber(0, arr.length - 1)];
-
-const getRandomLengthArray = (arr) =>  randomNumber(1, arr.length - 1);
-
 const createAnnouncement = (index) => {
-  const locationArr = [getRandomCoordinates(35.65, 35.7, 5), getRandomCoordinates(139.7, 139.8, 5)];
+  const locationLat = getRandomCoordinates(35.65, 35.7, 5);
+  const locationLng = getRandomCoordinates(139.7, 139.8, 5);
 
   return {
     author: {
-      avatar: CreateListAvatar()[index],
+      avatar: сreateListAvatar()[index],
     },
     offer: {
       title: 'Объявление',
-      adress: `${locationArr[0]}, ${locationArr[1]}`,
+      adress: `${locationLat}, ${locationLng}`,
       price: randomNumber(1, 100),
-      type: listTypeOffer[randomNumber(0, listTypeOffer.length - 1)],
+      type: LIST_TYPE_OFFER[randomNumber(0, LIST_TYPE_OFFER.length - 1)],
       rooms: randomNumber(1, 10),
       guests: randomNumber(1, 10),
-      checkin: listCheckin[randomNumber(0, listCheckin.length - 1)],
-      checkout: listCheckout[randomNumber(0, listCheckout.length - 1)],
-      features: new Array(getRandomLengthArray(listFeatures))
+      checkin: LIST_CHECKIN[randomNumber(0, LIST_CHECKIN.length - 1)],
+      checkout: LIST_CHECKOUT[randomNumber(0, LIST_CHECKOUT.length - 1)],
+      features: new Array(randomNumber(1, LIST_FEATURES.length))
         .fill('')
-        .map((feature, indexFeature) => listFeatures[indexFeature]),
+        .map((feature, indexFeature) => LIST_FEATURES[indexFeature]),
       description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id, repellat voluptas.',
-      photos: new Array(getRandomLengthArray(listPhotos))
+      photos: new Array(randomNumber(1, LIST_PHOTOS.length))
         .fill('')
-        .map(() => getRandomElement(listPhotos)),
+        .map(() => LIST_PHOTOS[randomNumber(0, LIST_PHOTOS.length - 1)]),
     },
     location: {
-      lat: locationArr[0],
-      lng: locationArr[1],
+      lat: locationLat,
+      lng: locationLng,
     },
   };
 };
 
-const similarAnnouncement =  new Array(10)
+const similarAnnouncements =  new Array(ANNOUNCEMENT_COUNT)
   .fill('')
   .map((currentValue, index) => createAnnouncement(index));
 
-
-similarAnnouncement;
+similarAnnouncements;
