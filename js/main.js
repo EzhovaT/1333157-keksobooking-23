@@ -1,5 +1,5 @@
 import {ANNOUNCEMENT_COUNT} from './data.js';
-import {createAnnouncement} from './create-element.js';
+import {createAnnouncement} from './create-announcement.js';
 
 const similarAnnouncements =  new Array(ANNOUNCEMENT_COUNT)
   .fill('')
