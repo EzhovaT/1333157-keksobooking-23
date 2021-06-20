@@ -11,7 +11,7 @@ const createAnnouncement = (index) => {
     },
     offer: {
       title: 'Объявление',
-      adress: `${locationLat}, ${locationLng}`,
+      address: `${locationLat}, ${locationLng}`,
       price: randomNumber(1, 100),
       type: LIST_TYPE_OFFER[randomNumber(0, LIST_TYPE_OFFER.length - 1)],
       rooms: randomNumber(1, 10),
