@@ -13,9 +13,9 @@ const MINIMUMCOSTHOUSING = {
 
 const checkingNumberOfGuests = () => {
   if(roomNumber.value === '100' && capacity.value !== '0') {
-    capacity.setCustomValidity('Не для гостей!');
+    capacity.setCustomValidity('Не для гостей');
   } else if (roomNumber.value < capacity.value) {
-    capacity.setCustomValidity('Гостей больше чем комнат!');
+    capacity.setCustomValidity('Гостей больше чем комнат');
   } else {
     capacity.setCustomValidity('');
   }
