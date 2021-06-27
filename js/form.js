@@ -22,10 +22,26 @@ capacity.addEventListener('change',() => {
 });
 
 typeHousing.addEventListener('change', () => {
-  for( const key in MINIMUMCOSTHOUSING){
+  for(const key in MINIMUMCOSTHOUSING){
     if(typeHousing.value === key){
       inputPrice.min = MINIMUMCOSTHOUSING[key];
       inputPrice.placeholder = MINIMUMCOSTHOUSING[key];
     }
   }
 });
+
+const deactivatingPage = (form, fieldsets) => {
+  form.classList.add('ad-form--disabled');
+  fieldsets.forEach((fieldset) => {
+    fieldset.setAttribute('disabled', 'disabled');
+  });
+};
+
+const activatingPage = (form, fieldsets) => {
+  form.classList.remove('ad-form--disabled');
+  fieldsets.forEach((fieldset) => {
+    fieldset.removeAttribute('disabled');
+  });
+};
+
+export {deactivatingPage, activatingPage};
