@@ -8,7 +8,7 @@ const LIST_TYPE_OFFER_TRANSLATION = {
   hotel: 'Отель',
 };
 
-const generateMarkupCards = ({offer, author}) => {
+const generateMarkupCard = ({offer, author}) => {
   const element = template.cloneNode(true);
 
   const title = element.querySelector('.popup__title');
@@ -33,14 +33,14 @@ const generateMarkupCards = ({offer, author}) => {
   avatar.src = author.avatar;
 
   const description = element.querySelector('.popup__description');
-  if(offer.description === '') {
+  if (offer.description === '') {
     description.classList.add('hidden');
   } else {
     description.textContent = offer.description;
   }
 
   const features = element.querySelector('.popup__features');
-  if(offer.features.length < 0|| offer.features[0] === undefined){
+  if (offer.features.length < 0|| offer.features[0] === undefined) {
     features.classList.add('hidden');
   } else {
     const modifiersFeatures = offer.features.map((feature) => `popup__feature--${feature}`);
@@ -53,7 +53,7 @@ const generateMarkupCards = ({offer, author}) => {
   }
 
   const photos = element.querySelector('.popup__photos');
-  if(offer.photos.length < 0 || offer.photos[0] === undefined){
+  if (offer.photos.length < 0 || offer.photos[0] === undefined) {
     photos.classList.add('hidden');
   } else {
     offer.photos.forEach((photoSrc) => {
@@ -66,4 +66,4 @@ const generateMarkupCards = ({offer, author}) => {
   return element;
 };
 
-export {generateMarkupCards};
+export {generateMarkupCard};

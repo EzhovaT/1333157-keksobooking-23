@@ -12,7 +12,7 @@ const MINIMUMCOSTHOUSING = {
 };
 
 capacity.addEventListener('change',() => {
-  if(roomNumber.value === '100' && capacity.value !== '0') {
+  if (roomNumber.value === '100' && capacity.value !== '0') {
     capacity.setCustomValidity('Не для гостей');
   } else if (roomNumber.value < capacity.value) {
     capacity.setCustomValidity('Гостей больше чем комнат');
@@ -23,25 +23,25 @@ capacity.addEventListener('change',() => {
 
 typeHousing.addEventListener('change', () => {
   for (const key in MINIMUMCOSTHOUSING) {
-    if(typeHousing.value === key){
+    if (typeHousing.value === key) {
       inputPrice.min = MINIMUMCOSTHOUSING[key];
       inputPrice.placeholder = MINIMUMCOSTHOUSING[key];
     }
   }
 });
 
-const deactivatingPage = (form, fieldsets) => {
+const deactivatePage = (form, fieldsets) => {
   form.classList.add('ad-form--disabled');
   fieldsets.forEach((fieldset) => {
     fieldset.disabled = true;
   });
 };
 
-const activatingPage = (form, fieldsets) => {
+const activatePage = (form, fieldsets) => {
   form.classList.remove('ad-form--disabled');
   fieldsets.forEach((fieldset) => {
     fieldset.disabled = false;
   });
 };
 
-export {deactivatingPage, activatingPage};
+export {deactivatePage, activatePage};
