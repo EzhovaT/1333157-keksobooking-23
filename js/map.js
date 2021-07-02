@@ -7,14 +7,17 @@ const adFormFields = Array.from(adForm.children);
 const filtersForm = document.querySelector('.map__filters');
 const filtersFormFieldsets = Array.from(filtersForm.children);
 
-const STARTCOORDINATES = {
-  lat: 35.6894,
-  lng: 139.692,
-};
+const STARTING_LAT = 35.6894;
+const STARTING_LNG = 139.692;
+const ICON_SIZE = [40, 40];
+const ICON_ANCHOR = [20, 40];
+const ICON_URL = 'img/pin.svg';
+const MAIN_ICON_SIZE = [52, 52];
+const MAIN_ICON_ANCHOR = [26, 52];
+const MAIN_ICON_URL = 'img/main-pin.svg';
+const DECIMAL_PLACES = 5;
 
-const DECIMALPLACES = 5;
-
-inputAdress.value = `${STARTCOORDINATES.lat.toFixed(DECIMALPLACES)}, ${STARTCOORDINATES.lng.toFixed(DECIMALPLACES)}`;
+inputAdress.value = `${STARTING_LAT}, ${STARTING_LNG}`;
 
 const addCard = (announcements) => {
   const mapCanvas = L.map('map-canvas')
@@ -23,8 +26,8 @@ const addCard = (announcements) => {
       activatePage(adForm, adFormFields);
     })
     .setView({
-      lat: STARTCOORDINATES.lat,
-      lng: STARTCOORDINATES.lng,
+      lat: STARTING_LAT,
+      lng: STARTING_LNG,
     }, 10);
 
   L.tileLayer(
@@ -36,29 +39,22 @@ const addCard = (announcements) => {
 
   const markerGroup = L.layerGroup().addTo(mapCanvas);
 
-  const ICONSIZE = [40, 40];
-  const ICONANCHOR = [20, 40];
-  const ICONURL = 'img/pin.svg';
-  const MAINICONSIZE = [52, 52];
-  const MAINICONANCHOR = [26, 52];
-  const MAINICONURL = 'img/main-pin.svg';
-
   const pinIcon = L.icon({
-    iconUrl: ICONURL,
-    iconSize: ICONSIZE,
-    iconAnchor: ICONANCHOR,
+    iconUrl: ICON_URL,
+    iconSize: ICON_SIZE,
+    iconAnchor: ICON_ANCHOR,
   });
 
   const mainPinIcon = L.icon({
-    iconUrl: MAINICONURL,
-    iconSize: MAINICONSIZE,
-    iconAnchor: MAINICONANCHOR,
+    iconUrl: MAIN_ICON_URL,
+    iconSize: MAIN_ICON_SIZE,
+    iconAnchor: MAIN_ICON_ANCHOR,
   });
 
   const mainPinMarker = L.marker(
     {
-      lat: STARTCOORDINATES.lat,
-      lng: STARTCOORDINATES.lng,
+      lat: STARTING_LAT,
+      lng: STARTING_LNG,
     },
     {
       draggable: true,
@@ -69,8 +65,8 @@ const addCard = (announcements) => {
   mainPinMarker.addTo(mapCanvas);
 
   mainPinMarker.on('moveend', (evt) => {
-    const lat = evt.target.getLatLng().lat.toFixed(DECIMALPLACES);
-    const lng = evt.target.getLatLng().lng.toFixed(DECIMALPLACES);
+    const lat = evt.target.getLatLng().lat.toFixed(DECIMAL_PLACES);
+    const lng = evt.target.getLatLng().lng.toFixed(DECIMAL_PLACES);
     inputAdress.value = `${lat}, ${lng}`;
   });
 

@@ -3,7 +3,7 @@ const capacity = document.querySelector('#capacity');
 const typeHousing = document.querySelector('#type');
 const inputPrice = document.querySelector('#price');
 
-const MINIMUMCOSTHOUSING = {
+const MINIMUM_COST_HOUSING = {
   bungalow: 0,
   flat: 1000,
   hotel: 3000,
@@ -22,10 +22,10 @@ capacity.addEventListener('change',() => {
 });
 
 typeHousing.addEventListener('change', () => {
-  for (const key in MINIMUMCOSTHOUSING) {
+  for (const key in MINIMUM_COST_HOUSING) {
     if (typeHousing.value === key) {
-      inputPrice.min = MINIMUMCOSTHOUSING[key];
-      inputPrice.placeholder = MINIMUMCOSTHOUSING[key];
+      inputPrice.min = MINIMUM_COST_HOUSING[key];
+      inputPrice.placeholder = MINIMUM_COST_HOUSING[key];
     }
   }
 });
