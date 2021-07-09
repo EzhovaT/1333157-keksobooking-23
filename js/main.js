@@ -1,9 +1,7 @@
-import {ANNOUNCEMENT_COUNT} from './data.js';
-import {createAnnouncement} from './create-announcement.js';
-import {addCard} from './map.js';
+import { addCard } from './map.js';
+import { getData } from './api.js';
+import { closePopup } from './popup.js';
+import { setUserFormSubmit } from './form.js';
 
-const similarAnnouncements =  new Array(ANNOUNCEMENT_COUNT)
-  .fill('')
-  .map((currentValue, index) => createAnnouncement(index));
-
-addCard(similarAnnouncements);
+getData(addCard);
+setUserFormSubmit(closePopup);

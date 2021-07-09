@@ -8,7 +8,7 @@ const LIST_TYPE_OFFER_TRANSLATION = {
   hotel: 'Отель',
 };
 
-const generateMarkupCard = ({offer, author}) => {
+const generateMarkupCard = ({ offer, author }) => {
   const element = template.cloneNode(true);
 
   const title = element.querySelector('.popup__title');
@@ -40,20 +40,22 @@ const generateMarkupCard = ({offer, author}) => {
   }
 
   const features = element.querySelector('.popup__features');
-  if (offer.features.length < 0|| offer.features[0] === undefined) {
+  if (offer.features === undefined) {
     features.classList.add('hidden');
   } else {
-    const modifiersFeatures = offer.features.map((feature) => `popup__feature--${feature}`);
+    const modifiersFeatures = offer.features.map(
+      (feature) => `popup__feature--${feature}`,
+    );
     features.querySelectorAll('.popup__feature').forEach((item) => {
       const secondClass = item.classList[1];
-      if(!modifiersFeatures.includes(secondClass)){
+      if (!modifiersFeatures.includes(secondClass)) {
         item.remove();
       }
     });
   }
 
   const photos = element.querySelector('.popup__photos');
-  if (offer.photos.length < 0 || offer.photos[0] === undefined) {
+  if (offer.photos === undefined) {
     photos.classList.add('hidden');
   } else {
     offer.photos.forEach((photoSrc) => {
@@ -66,4 +68,4 @@ const generateMarkupCard = ({offer, author}) => {
   return element;
 };
 
-export {generateMarkupCard};
+export { generateMarkupCard };

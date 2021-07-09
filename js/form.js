@@ -1,7 +1,15 @@
+import { sendData } from './api.js';
+import { openPopup } from './popup.js';
+import { resetStartingCoordinates } from './map.js';
+
 const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
 const typeHousing = document.querySelector('#type');
 const inputPrice = document.querySelector('#price');
+const adForm = document.querySelector('.ad-form');
+const errorPopup = document.querySelector('.error');
+const successPopup = document.querySelector('.success');
+const formResetButton = document.querySelector('.ad-form__reset');
 
 const MINIMUM_COST_HOUSING = {
   bungalow: 0,
@@ -11,7 +19,7 @@ const MINIMUM_COST_HOUSING = {
   palace: 10000,
 };
 
-capacity.addEventListener('change',() => {
+capacity.addEventListener('change', () => {
   if (roomNumber.value === '100' && capacity.value !== '0') {
     capacity.setCustomValidity('Не для гостей');
   } else if (roomNumber.value < capacity.value) {
@@ -44,4 +52,21 @@ const activatePage = (form, fieldsets) => {
   });
 };
 
-export {deactivatePage, activatePage};
+const setUserFormSubmit = () => {
+  adForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    sendData(
+      () => openPopup(successPopup),
+      () => openPopup(errorPopup),
+      new FormData(event.target),
+      adForm,
+    );
+  });
+};
+
+formResetButton.addEventListener('click', () => {
+  adForm.reset;
+  resetStartingCoordinates();
+});
+
+export { deactivatePage, activatePage, setUserFormSubmit };
