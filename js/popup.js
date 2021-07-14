@@ -1,28 +1,49 @@
 const errorButton = document.querySelector('.error__button');
+const errorPopup = document.querySelector('.error');
+const successPopup = document.querySelector('.success');
 
 const isEscEvent = (event) => event.key === 'Escape' || event.key === 'Esc';
 
-const closePopup = (popup) => {
-  popup.classList.add('hidden');
-};
-
-const onPopupEscKeydown = (popup) => function (event) {
+const onSuccessPopupEscKeydown = (event) => {
   if (isEscEvent(event)) {
     event.preventDefault();
-    closePopup(popup);
+    successPopup.classList.add('hidden');
+    document.removeEventListener('keydown', onSuccessPopupEscKeydown);
   }
 };
 
-const onClickСlose = (popup) => function (event) {
-  if (event.target === errorButton || event.target === popup) {
-    closePopup(popup);
+const onErrorPopupEscKeydown = (event) => {
+  if (isEscEvent(event)) {
+    event.preventDefault();
+    errorPopup.classList.add('hidden');
+    document.removeEventListener('keydown', onErrorPopupEscKeydown);
   }
 };
 
-const openPopup = (popup) => {
-  popup.classList.remove('hidden');
-  document.addEventListener('keydown', onPopupEscKeydown(popup));
-  popup.addEventListener('click', onClickСlose(popup));
+const closeErrorPopup = (event) => {
+  if (event.target === errorButton || event.target === errorPopup) {
+    errorPopup.classList.add('hidden');
+    errorPopup.removeEventListener('click', closeErrorPopup);
+  }
 };
 
-export { openPopup, closePopup };
+const closeSuccessPopup = (event) => {
+  if (event.target === successPopup) {
+    successPopup.classList.add('hidden');
+    successPopup.removeEventListener('click', closeSuccessPopup);
+  }
+};
+
+const openSuccessPopup = () => {
+  successPopup.classList.remove('hidden');
+  document.addEventListener('keydown', onSuccessPopupEscKeydown);
+  successPopup.addEventListener('click', closeSuccessPopup);
+};
+
+const openErrorPopup = () => {
+  errorPopup.classList.remove('hidden');
+  document.addEventListener('keydown', onErrorPopupEscKeydown);
+  errorPopup.addEventListener('click', closeErrorPopup);
+};
+
+export { openSuccessPopup, openErrorPopup };

@@ -1,14 +1,12 @@
 import { sendData } from './api.js';
-import { openPopup } from './popup.js';
-import { resetStartingCoordinates } from './map.js';
+import { openSuccessPopup, openErrorPopup } from './popup.js';
+import { resetMapState } from './map.js';
 
 const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
 const typeHousing = document.querySelector('#type');
 const inputPrice = document.querySelector('#price');
 const adForm = document.querySelector('.ad-form');
-const errorPopup = document.querySelector('.error');
-const successPopup = document.querySelector('.success');
 const formResetButton = document.querySelector('.ad-form__reset');
 
 const MINIMUM_COST_HOUSING = {
@@ -52,21 +50,26 @@ const activatePage = (form, fieldsets) => {
   });
 };
 
+const resetForm = () => {
+  openSuccessPopup();
+  adForm.reset();
+  resetMapState();
+};
+
 const setUserFormSubmit = () => {
   adForm.addEventListener('submit', (event) => {
     event.preventDefault();
     sendData(
-      () => openPopup(successPopup),
-      () => openPopup(errorPopup),
+      () => resetForm(),
+      () => openErrorPopup(),
       new FormData(event.target),
-      adForm,
     );
   });
 };
 
 formResetButton.addEventListener('click', () => {
-  adForm.reset;
-  resetStartingCoordinates();
+  adForm.reset();
+  resetMapState();
 });
 
 export { deactivatePage, activatePage, setUserFormSubmit };
