@@ -8,6 +8,7 @@ const typeHousing = document.querySelector('#type');
 const inputPrice = document.querySelector('#price');
 const adForm = document.querySelector('.ad-form');
 const formResetButton = document.querySelector('.ad-form__reset');
+const filtersForm = document.querySelector('.map__filters');
 
 const MINIMUM_COST_HOUSING = {
   bungalow: 0,
@@ -34,6 +35,17 @@ typeHousing.addEventListener('change', () => {
       inputPrice.placeholder = MINIMUM_COST_HOUSING[key];
     }
   }
+});
+
+const checkInTime = document.querySelector('#timein');
+const checkOutTime = document.querySelector('#timeout');
+
+checkInTime.addEventListener('change', (event) => {
+  checkOutTime.value = event.target.value;
+});
+
+checkOutTime.addEventListener('change', (event) => {
+  checkInTime.value = event.target.value;
 });
 
 const deactivatePage = (form, fieldsets) => {
@@ -70,6 +82,7 @@ const setUserFormSubmit = () => {
 formResetButton.addEventListener('click', () => {
   adForm.reset();
   resetMapState();
+  filtersForm.reset();
 });
 
 export { deactivatePage, activatePage, setUserFormSubmit };

@@ -1,4 +1,4 @@
-import { activatePage } from './form.js';
+import { activatePage, deactivatePage } from './form.js';
 import { generateMarkupCard } from './generate-markup-cards.js';
 
 const inputAdress = document.querySelector('#address');
@@ -19,8 +19,15 @@ const MAIN_ICON_URL = 'img/main-pin.svg';
 const DECIMAL_PLACES = 5;
 const MAP_SCALE = 10;
 const NUMBER_OFFERS = 10;
+const DEFAULT_VALUE ='any';
+const LOW_PRICE = 10000;
+const HIGH_PRICE = 50000;
+const LIST_PRICE = [ 'middle', 'low', 'high' ];
 
 inputAdress.value = `${STARTING_LAT}, ${STARTING_LNG}`;
+
+deactivatePage(filtersForm, filtersFormFieldsets);
+deactivatePage(adForm, adFormFields);
 
 const mapCanvas = L.map('map-canvas')
   .on('load', () => {
@@ -111,24 +118,35 @@ const setFilterValue = (cb) => {
 
 const getRank = ({ offer }) => {
   let rank = 0;
-  selectedFeatures.forEach(() => {
-    for (let num = 0; num < selectedFeatures.length; num++) {
-      if (offer.features && offer.features.includes(selectedFeatures[num])) {
-        rank += 2;
-      }
+  selectedFeatures.forEach((feature) => {
+    if (offer.features && offer.features.includes(feature)) {
+      rank += 2;
     }
   });
 
   return rank;
 };
 
-const isFilterSelected = (filterValue, offerValue) => filterValue === offerValue || filterValue === 'any';
+const isPriceSelected = (filterValue, offerValue) => {
+  switch (filterValue) {
+    case LIST_PRICE[0]:
+      return offerValue > LOW_PRICE && offerValue < HIGH_PRICE;
+    case LIST_PRICE[1]:
+      return offerValue < LOW_PRICE;
+    case LIST_PRICE[2]:
+      return offerValue > HIGH_PRICE;
+    case DEFAULT_VALUE :
+      return true;
+  }
+};
 
-const filterType = ({ offer }) => {
+const isFilterSelected = (filterValue, offerValue) => filterValue === String(offerValue) || filterValue === DEFAULT_VALUE;
+
+const getSelectedFilters = ({ offer }) => {
   const housingTypeCompare = isFilterSelected(housingTypeValue, offer.type);
-  const housingPriceCompare = isFilterSelected(housingPriceValue, offer.price);
   const housingRoomsCompare = isFilterSelected(housingRoomsValue, offer.rooms);
   const housingGuestsCompare = isFilterSelected(housingGuestsValue, offer.guests);
+  const housingPriceCompare = isPriceSelected(housingPriceValue, offer.price);
 
   return housingTypeCompare && housingPriceCompare && housingRoomsCompare && housingGuestsCompare;
 };
@@ -156,7 +174,7 @@ const createMarker =(point) => {
   });
 };
 
-const addCard = (announcements) => {
+const addCards = (announcements) => {
   markerGroup.clearLayers();
 
   const sortAnnouncements =  announcements.slice().sort(compareOffers);
@@ -167,7 +185,7 @@ const addCard = (announcements) => {
     if(countOffer === NUMBER_OFFERS) {
       break;
     }
-    if(filterType(sortAnnouncements[num])) {
+    if(getSelectedFilters(sortAnnouncements[num])) {
       createMarker(sortAnnouncements[num]);
       countOffer++;
     }
@@ -198,4 +216,4 @@ const resetMapState = () => {
   inputAdress.value = `${STARTING_LAT}, ${STARTING_LNG}`;
 };
 
-export { addCard, resetMapState, showError, setFilterValue };
+export { addCards, resetMapState, showError, setFilterValue };
