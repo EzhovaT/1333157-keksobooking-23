@@ -90,7 +90,15 @@ let housingPriceValue = housingPrice.value;
 let housingRoomsValue = housingRooms.value;
 let housingGuestsValue = housingGuests.value;
 
-let selectedFeatures = [];
+let selectedFeatures = ['wifi', 'washer', 'elevator', 'parking', 'dishwasher', 'conditioner'];
+
+const setFeatures = (cb) => {
+  mapFeatures.addEventListener('input', () => {
+    const checkdFeature = Array.from(mapFeatures.querySelectorAll('input:checked'));
+    selectedFeatures = checkdFeature.map((elem) => elem.value);
+    cb();
+  });
+};
 
 const setFilterValue = (cb) => {
   filtersForm.addEventListener('input', (event) => {
@@ -109,22 +117,8 @@ const setFilterValue = (cb) => {
         break;
     }
 
-    const checkdFeature = Array.from(mapFeatures.querySelectorAll('input:checked'));
-    selectedFeatures = checkdFeature.map((elem) => elem.value);
-
     cb();
   });
-};
-
-const getRank = ({ offer }) => {
-  let rank = 0;
-  selectedFeatures.forEach((feature) => {
-    if (offer.features && offer.features.includes(feature)) {
-      rank += 2;
-    }
-  });
-
-  return rank;
 };
 
 const isPriceSelected = (filterValue, offerValue) => {
@@ -142,20 +136,25 @@ const isPriceSelected = (filterValue, offerValue) => {
 
 const isFilterSelected = (filterValue, offerValue) => filterValue === String(offerValue) || filterValue === DEFAULT_VALUE;
 
-const getSelectedFilters = ({ offer }) => {
+const isFeaturesSelected = ({ offer }) => {
+  if (!offer.features) {
+    return false;
+  }
+  for (let num = 0; num < offer.features.length; num++) {
+    if (offer.features.includes(selectedFeatures[num])) {
+      return true;
+    }
+  }
+  return false;
+};
+
+const isLikeOffer = ({ offer }) => {
   const housingTypeCompare = isFilterSelected(housingTypeValue, offer.type);
   const housingRoomsCompare = isFilterSelected(housingRoomsValue, offer.rooms);
   const housingGuestsCompare = isFilterSelected(housingGuestsValue, offer.guests);
   const housingPriceCompare = isPriceSelected(housingPriceValue, offer.price);
 
-  return housingTypeCompare && housingPriceCompare && housingRoomsCompare && housingGuestsCompare;
-};
-
-const compareOffers = (offerA, offerB) => {
-  const rankA = getRank(offerA);
-  const rankB = getRank(offerB);
-
-  return rankB - rankA;
+  return housingTypeCompare && housingPriceCompare && housingRoomsCompare && housingGuestsCompare ;
 };
 
 const createMarker =(point) => {
@@ -177,15 +176,15 @@ const createMarker =(point) => {
 const addCards = (announcements) => {
   markerGroup.clearLayers();
 
-  const sortAnnouncements =  announcements.slice().sort(compareOffers);
+  const sortAnnouncements =  announcements.filter((elem) => isLikeOffer(elem));
 
-  let countOffer =0;
+  let countOffer = 0;
 
-  for(let num = 0; num<sortAnnouncements.length; num++) {
+  for(let num = 0; num < sortAnnouncements.length; num++) {
     if(countOffer === NUMBER_OFFERS) {
       break;
     }
-    if(getSelectedFilters(sortAnnouncements[num])) {
+    if(isFeaturesSelected(sortAnnouncements[num])){
       createMarker(sortAnnouncements[num]);
       countOffer++;
     }
@@ -216,4 +215,4 @@ const resetMapState = () => {
   inputAdress.value = `${STARTING_LAT}, ${STARTING_LNG}`;
 };
 
-export { addCards, resetMapState, showError, setFilterValue };
+export { addCards, resetMapState, showError, setFilterValue, setFeatures };
