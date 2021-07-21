@@ -1,7 +1,20 @@
-import { addCard } from './map.js';
-import { showError } from './map.js';
+import { addCards, showError, setFeatures, setFilterValue } from './map.js';
 import { getData } from './api.js';
 import { setUserFormSubmit } from './form.js';
+import { debounce } from './utils/debounce.js';
 
-getData(addCard, showError);
+const RENDER_DELAY = 500;
+
+getData((offers) => {
+  addCards(offers);
+  setFilterValue(debounce(
+    () => addCards(offers),
+    RENDER_DELAY,
+  ));
+  setFeatures(debounce(
+    () => addCards(offers),
+    RENDER_DELAY,
+  ));
+}, showError);
+
 setUserFormSubmit();
