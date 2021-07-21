@@ -3,7 +3,7 @@ import { openSuccessPopup, openErrorPopup } from './popup.js';
 import { resetMapState } from './map.js';
 
 const roomNumber = document.querySelector('#room_number');
-const capacity = document.querySelector('#capacity');
+const inputCapacity = document.querySelector('#capacity');
 const typeHousing = document.querySelector('#type');
 const inputPrice = document.querySelector('#price');
 const adForm = document.querySelector('.ad-form');
@@ -18,21 +18,38 @@ const MINIMUM_COST_HOUSING = {
   palace: 10000,
 };
 
-capacity.addEventListener('change', () => {
-  if (roomNumber.value === '100' && capacity.value !== '0') {
+const setValidationRooms = (rooms, capacity) => {
+  if (rooms.value === '100' && capacity.value !== '0') {
     capacity.setCustomValidity('Не для гостей');
-  } else if (roomNumber.value < capacity.value) {
+  } else if (rooms.value < capacity.value) {
     capacity.setCustomValidity('Гостей больше чем комнат');
-  } else {
+  } else if (rooms.value !=='100' && capacity.value === '0') {
+    capacity.setCustomValidity('Укажите колличество гостей');
+  }  else {
     capacity.setCustomValidity('');
   }
+};
+
+inputCapacity.addEventListener('change', () => {
+  setValidationRooms(roomNumber, inputCapacity);
+});
+
+roomNumber.addEventListener('change', () => {
+  setValidationRooms(roomNumber, inputCapacity);
 });
 
 typeHousing.addEventListener('change', () => {
   for (const key in MINIMUM_COST_HOUSING) {
     if (typeHousing.value === key) {
-      inputPrice.min = MINIMUM_COST_HOUSING[key];
       inputPrice.placeholder = MINIMUM_COST_HOUSING[key];
+    }
+  }
+});
+
+inputPrice.addEventListener('change', () => {
+  for (const key in MINIMUM_COST_HOUSING) {
+    if (typeHousing.value === key) {
+      inputPrice.min = MINIMUM_COST_HOUSING[key];
     }
   }
 });
