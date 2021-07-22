@@ -1,6 +1,6 @@
 const templateFragment = document.querySelector('#card').content;
 const template = templateFragment.querySelector('article');
-const LIST_TYPE_OFFER_TRANSLATION = {
+const ListTypeOfferTranslation = {
   palace: 'Дворец',
   flat: 'Квартира',
   house: 'Дом',
@@ -21,7 +21,7 @@ const generateMarkupCard = ({ offer, author }) => {
   price.textContent = `${offer.price} ₽/ночь`;
 
   const type = element.querySelector('.popup__type');
-  type.textContent = `${LIST_TYPE_OFFER_TRANSLATION[offer.type]}`;
+  type.textContent = `${ListTypeOfferTranslation[offer.type]}`;
 
   const capacity = element.querySelector('.popup__text--capacity');
   capacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;

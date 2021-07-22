@@ -92,14 +92,6 @@ let housingGuestsValue = housingGuests.value;
 
 let selectedFeatures = ['wifi', 'washer', 'elevator', 'parking', 'dishwasher', 'conditioner'];
 
-const setFeatures = (cb) => {
-  mapFeatures.addEventListener('input', () => {
-    const checkdFeature = Array.from(mapFeatures.querySelectorAll('input:checked'));
-    selectedFeatures = checkdFeature.map((elem) => elem.value);
-    cb();
-  });
-};
-
 const setFilterValue = (cb) => {
   filtersForm.addEventListener('input', (event) => {
     switch (event.target){
@@ -116,6 +108,11 @@ const setFilterValue = (cb) => {
         housingGuestsValue = event.target.value;
         break;
     }
+
+    mapFeatures.addEventListener('input', () => {
+      const checkdFeature = Array.from(mapFeatures.querySelectorAll('input:checked'));
+      selectedFeatures = checkdFeature.map((elem) => elem.value);
+    });
 
     cb();
   });
@@ -215,4 +212,4 @@ const resetMapState = () => {
   inputAdress.value = `${STARTING_LAT}, ${STARTING_LNG}`;
 };
 
-export { addCards, resetMapState, showError, setFilterValue, setFeatures };
+export { addCards, resetMapState, showError, setFilterValue };

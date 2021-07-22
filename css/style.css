@@ -1038,3 +1038,13 @@ fieldset {
 .hidden {
   display: none;
 }
+
+.ad-form__photo {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ad-form__photo-img {
+  width: 70px;
+  height: 70px;
+}

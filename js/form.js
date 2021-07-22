@@ -10,7 +10,7 @@ const adForm = document.querySelector('.ad-form');
 const formResetButton = document.querySelector('.ad-form__reset');
 const filtersForm = document.querySelector('.map__filters');
 
-const MINIMUM_COST_HOUSING = {
+const MinimumCostHousing = {
   bungalow: 0,
   flat: 1000,
   hotel: 3000,
@@ -39,17 +39,17 @@ roomNumber.addEventListener('change', () => {
 });
 
 typeHousing.addEventListener('change', () => {
-  for (const key in MINIMUM_COST_HOUSING) {
+  for (const key in MinimumCostHousing) {
     if (typeHousing.value === key) {
-      inputPrice.placeholder = MINIMUM_COST_HOUSING[key];
+      inputPrice.placeholder = MinimumCostHousing[key];
     }
   }
 });
 
 inputPrice.addEventListener('change', () => {
-  for (const key in MINIMUM_COST_HOUSING) {
+  for (const key in MinimumCostHousing) {
     if (typeHousing.value === key) {
-      inputPrice.min = MINIMUM_COST_HOUSING[key];
+      inputPrice.min = MinimumCostHousing[key];
     }
   }
 });
